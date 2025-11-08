@@ -43,6 +43,10 @@ body {
   margin-right: 10px;
 }
 
+.action-box input[type='file'] {
+  margin-right: 10px;
+}
+
 .action-box button {
   padding: 10px 15px;
   font-size: 16px;
@@ -51,11 +55,37 @@ body {
   background-color: #007bff;
   color: white;
   cursor: pointer;
+  vertical-align: middle;
 }
 
 .action-box button:hover {
   background-color: #0056b3;
 }
+
+/* --- NEW: Bookmarklet Box Style --- */
+.bookmarklet-box {
+  background: #fffbef;
+  border: 1px solid #ffeeba;
+  line-height: 1.6;
+}
+
+.bookmarklet-box p {
+  margin-top: 0;
+}
+
+.bookmarklet-code {
+  width: 98%;
+  font-family: monospace;
+  font-size: 12px;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  background-color: #f8f8f8;
+  resize: none;
+}
+
+/* --- END OF NEW STYLE --- */
+
 
 /* The "Visual Tapestry" */
 .tapestry-container h2 {
@@ -79,6 +109,12 @@ body {
   overflow: hidden;
   border-left: 5px solid #007bff;
   /* Default: ARTICLE */
+  word-wrap: break-word;
+  /* Handle long text */
+  display: flex;
+  /* Added for layout */
+  flex-direction: column;
+  /* Added for layout */
 }
 
 /* This is the "tapestry" part! */
@@ -90,6 +126,11 @@ body {
 .card-product {
   border-left: 5px solid #28a745;
   /* Green */
+}
+
+.card-note {
+  border-left: 5px solid #ffc107;
+  /* Yellow */
 }
 
 .card-type-label {
@@ -106,9 +147,31 @@ body {
 
 .card h3 {
   margin-top: 0;
+  margin-right: 40px;
+  /* Make space for the label */
 }
 
-.card p {
+.card-content {
   font-size: 14px;
   color: #333;
+  flex-grow: 1;
+  /* Makes content take available space */
+}
+
+.card-timestamp {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  /* Add space above */
+}
+
+.card a {
+  font-weight: 600;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.card a:hover {
+  text-decoration: underline;
 }
