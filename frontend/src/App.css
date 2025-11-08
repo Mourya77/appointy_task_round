@@ -1,68 +1,95 @@
+/* --- NEW --- */
+/* Import a modern font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
 /* General App */
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
-    Arial, sans-serif;
-  background-color: #f0f2f5;
-  color: #1c1e21;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Helvetica, Arial, sans-serif;
+  /* New background gradient */
+  background: linear-gradient(170deg, #f5f7fa 0%, #e8ecf3 100%);
+  color: #1a1f36;
   margin: 0;
+  min-height: 100vh;
 }
 
 .App {
   max-width: 900px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 32px;
 }
 
 .App-header {
   text-align: center;
-  border-bottom: 2px solid #ddd;
-  padding-bottom: 10px;
-  margin-bottom: 20px;
+  padding-bottom: 20px;
+  margin-bottom: 32px;
+  border-bottom: 2px solid #e0e4ec;
 }
 
 .App-header h1 {
   margin: 0;
-  color: #333;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1a1f36;
 }
 
 /* Action Boxes (Capture/Search) */
 .action-box {
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  margin-bottom: 24px;
+  border: 1px solid #e0e4ec;
+}
+
+.action-box h2 {
+  margin-top: 0;
+  font-weight: 600;
+  color: #333;
 }
 
 .action-box input[type='text'] {
   width: 70%;
-  padding: 10px;
+  padding: 12px 16px;
   font-size: 16px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  margin-right: 10px;
+  border: 1px solid #d2d6db;
+  border-radius: 8px;
+  margin-right: 12px;
+  transition: all 0.2s ease;
+}
+
+.action-box input[type='text']:focus {
+  border-color: #4A90E2;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+  outline: none;
 }
 
 .action-box input[type='file'] {
-  margin-right: 10px;
+  margin-right: 12px;
+  font-size: 14px;
 }
 
 .action-box button {
-  padding: 10px 15px;
+  padding: 12px 20px;
   font-size: 16px;
+  font-weight: 600;
   border: none;
-  border-radius: 4px;
-  background-color: #007bff;
+  border-radius: 8px;
+  /* New button gradient */
+  background: linear-gradient(145deg, #007bff, #0056b3);
   color: white;
   cursor: pointer;
   vertical-align: middle;
+  transition: all 0.2s ease;
 }
 
 .action-box button:hover {
-  background-color: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
 }
 
-/* --- NEW: Bookmarklet Box Style --- */
+/* --- Bookmarklet Box Style --- */
 .bookmarklet-box {
   background: #fffbef;
   border: 1px solid #ffeeba;
@@ -86,90 +113,106 @@ body {
 
 /* --- END OF NEW STYLE --- */
 
-
 /* The "Visual Tapestry" */
 .tapestry-container h2 {
-  color: #666;
+  color: #555;
   font-weight: 400;
+  border-bottom: 1px solid #e0e4ec;
+  padding-bottom: 8px;
 }
 
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
+  gap: 24px;
 }
 
 .card {
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  padding: 15px;
+  background: #ffffff;
+  border: 1px solid #e0e4ec;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  padding: 20px;
   position: relative;
   overflow: hidden;
-  border-left: 5px solid #007bff;
+  /* New border style */
+  border-top: 4px solid #007bff;
   /* Default: ARTICLE */
   word-wrap: break-word;
-  /* Handle long text */
   display: flex;
-  /* Added for layout */
   flex-direction: column;
-  /* Added for layout */
+  transition: all 0.3s ease;
+}
+
+/* New hover effect */
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
 }
 
 /* This is the "tapestry" part! */
 .card-video {
-  border-left: 5px solid #dc3545;
+  border-top: 4px solid #dc3545;
   /* Red */
 }
 
 .card-product {
-  border-left: 5px solid #28a745;
+  border-top: 4px solid #28a745;
   /* Green */
 }
 
 .card-note {
-  border-left: 5px solid #ffc107;
+  border-top: 4px solid #ffc107;
   /* Yellow */
 }
 
+.card-image {
+  border-top: 4px solid #6f42c1;
+  /* Purple */
+}
+
+/* New Label Style */
 .card-type-label {
   position: absolute;
-  top: 10px;
-  right: -15px;
-  background: #eee;
+  top: 18px;
+  right: -30px;
+  background: #f0f2f5;
+  color: #555;
   font-size: 10px;
-  font-weight: 600;
-  padding: 3px 10px;
+  font-weight: 700;
+  padding: 4px 30px;
   transform: rotate(45deg);
   text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .card h3 {
   margin-top: 0;
   margin-right: 40px;
-  /* Make space for the label */
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #1a1f36;
 }
 
 .card-content {
   font-size: 14px;
   color: #333;
   flex-grow: 1;
-  /* Makes content take available space */
+  line-height: 1.6;
 }
 
 .card-timestamp {
   font-size: 12px;
   color: #888;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   margin-top: 10px;
-  /* Add space above */
 }
 
 .card a {
   font-weight: 600;
   color: #007bff;
   text-decoration: none;
+  font-size: 14px;
 }
 
 .card a:hover {

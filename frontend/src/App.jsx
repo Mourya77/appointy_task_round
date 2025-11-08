@@ -5,8 +5,6 @@ import './App.css';
 const API_URL = "http://127.0.0.1:8000";
 
 // --- UPDATED: The Bookmarklet Code ---
-// This new version sends data as a 'x-www-form-urlencoded' string,
-// which is a "simple request" and will not fail due to CORS.
 const bookmarkletCode = `
   javascript:(
     function() {
@@ -40,13 +38,16 @@ function formatTimestamp(isoString) {
   });
 }
 
+// --- UPDATED: ItemCard ---
 function ItemCard({ item }) {
   let cardStyle = "card";
   if (item.item_type === "VIDEO") cardStyle += " card-video";
   if (item.item_type === "PRODUCT") cardStyle += " card-product";
   if (item.item_type === "NOTE") cardStyle += " card-note";
+  if (item.item_type === "IMAGE") cardStyle += " card-image";
 
-  const sourceUrl = item.item_type === "NOTE"
+  const isViewableUpload = item.item_type === "NOTE" || item.item_type === "IMAGE";
+  const sourceUrl = isViewableUpload
     ? `${API_URL}${item.url}`
     : item.url;
 
@@ -61,11 +62,12 @@ function ItemCard({ item }) {
       </p>
 
       <a href={sourceUrl} target="_blank" rel="noopener noreferrer">
-        {item.item_type === "NOTE" ? "View Upload" : "Visit Source"}
+        {isViewableUpload ? "View Upload" : "Visit Source"}
       </a>
     </div>
   );
 }
+// --- END OF UPDATED ItemCard ---
 
 function App() {
   const [fileToUpload, setFileToUpload] = useState(null);
@@ -160,7 +162,6 @@ function App() {
         <h1>Project Synapse 🧠</h1>
       </header>
 
-      {/* --- UPDATED: BOOKMARKLET SECTION --- */}
       <div className="action-box bookmarklet-box">
         <h2>Capture from Anywhere (Bookmarklet)</h2>
         <p>
@@ -180,7 +181,6 @@ function App() {
           {copyButtonText}
         </button>
       </div>
-      {/* --- END OF UPDATED SECTION --- */}
 
       <div className="action-box">
         <h2>Capture New Memory</h2>
@@ -209,7 +209,7 @@ function App() {
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search for articles or image notes..."
+          placeholder="Search for articles, bills, or notes..."
         />
         <button onClick={() => runSearch(false)}>Search</button>
         <button onClick={() => runSearch(true)} style={{ marginLeft: "10px", backgroundColor: "#6c757d" }}>Refresh</button>

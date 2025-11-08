@@ -5,3 +5,7 @@ synapse.db
 # Ignore frontend build files 
 frontend/node_modules/ 
 frontend/dist/ 
+ 
+# Ignore user-uploaded images and database 
+uploads/ 
+synapse.db 

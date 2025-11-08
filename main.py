@@ -1,5 +1,5 @@
 from sqlmodel import SQLModel, Field, create_engine, Session, select
-from typing import Optional, Annotated  # <-- Make sure Annotated is imported
+from typing import Optional, Annotated
 import requests
 from bs4 import BeautifulSoup
 from fastapi import FastAPI, Depends, HTTPException, Query, UploadFile, File, BackgroundTasks, Form
@@ -20,7 +20,7 @@ class Item(SQLModel, table=True):
     url: str = Field(index=True)
     title: str
     content: str
-    item_type: str
+    item_type: str  # 'ARTICLE', 'VIDEO', 'PRODUCT', 'NOTE', 'IMAGE'
     created_at: datetime = Field(default_factory=datetime.utcnow, nullable=False)
 
 # (This class is good for other integrations, but not our bookmarklet)
@@ -57,7 +57,7 @@ def analyze_and_extract(url: str):
     This is the core "understanding" part of the brain.
     """
     try:
-        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'}
+        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64 x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'}
         response = requests.get(url, headers=headers, timeout=5)
         response.raise_for_status() 
         
@@ -121,20 +121,32 @@ def process_and_save_image(filename: str, file_contents: bytes):
         with open(file_path, "wb") as f:
             f.write(file_contents)
             
+        # --- THIS IS THE "SMARTER" MOCK ---
         base_name = os.path.splitext(filename)[0]
-        clean_name = base_name.replace("_", " ").replace("-", " ")
-        extracted_text = f"(Simulated OCR text from image: {filename}) Keywords: {clean_name}"
+        clean_name = base_name.replace("_", " ").replace("-", " ").lower()
+        
+        # Keywords to identify a "note"
+        note_keywords = ["bill", "note", "receipt", "screenshot", "list", "invoice"]
+        
+        item_type = "IMAGE" # Default to IMAGE
+        extracted_text = f"A saved image: {filename}" # Default non-searchable text
+
+        # If it's a note, make it searchable
+        if any(keyword in clean_name for keyword in note_keywords):
+            item_type = "NOTE"
+            extracted_text = f"(Simulated OCR text from image: {filename}) Keywords: {clean_name}"
+        # --- END OF SMARTER MOCK ---
         
         db_item = Item(
             url=f"/uploads/{filename}",
             title=f"Note: {filename}",
             content=extracted_text,
-            item_type="NOTE"
+            item_type=item_type # Use our new smart type
         )
         
         session.add(db_item)
         session.commit()
-        print(f"Background task finished: Saved {filename}")
+        print(f"Background task finished: Saved {filename} as {item_type}")
 
 
 # -----------------------------------------------------------------
@@ -203,7 +215,7 @@ def search_memory(
 @app.post("/api/v1/ingest", summary="MCP Server: Ingest a new memory")
 def mcp_ingest_url(
     background_tasks: BackgroundTasks,
-    url: Annotated[str, Form()] # <-- This now correctly accepts 'x-www-form-urlencoded'
+    url: Annotated[str, Form()]
 ):
     """
     This is our official 'data contract' endpoint for external AI,
